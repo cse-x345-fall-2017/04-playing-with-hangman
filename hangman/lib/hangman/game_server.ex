@@ -2,49 +2,50 @@ defmodule Hangman.GameServer do
   use GenServer
   
   alias Hangman.Game
-  @name :game_server
   
   
   # === Public API =========================================================== #
   
   def start_link() do
-    GenServer.start_link(__MODULE__, nil, name: :game_server)
+    GenServer.start_link(__MODULE__, nil)
   end
   
-  def new_game() do
-    GenServer.call(@name, :new_game)
+  def new_game(pid) do
+    GenServer.call(pid, :new_game)
   end
   
-  def new_game(word) do
-    GenServer.call(@name, {:new_game, word})
+  def new_game(pid, word) do
+    GenServer.call(pid, {:new_game, word})
   end
   
-  def make_move(game, guess) do
-    GenServer.call(@name, {:make_move, game, guess})
+  def make_move(pid, guess) do
+    GenServer.call(pid, {:make_move, guess})
   end
   
-  def tally(game) do
-    GenServer.call(@name, {:tally, game})
+  def tally(pid) do
+    GenServer.call(pid, :tally)
   end
   
   
   # === GenServer Implementation ============================================= #
   
-  def handle_call(:new_game, _from, state) do
-    {:reply, Game.new_game(), state}
+  def handle_call(:new_game, _from, _) do
+    new_state = Game.new_game()
+    {:reply, self(), new_state}
   end
   
-  def handle_call({:new_game, word}, _from, state) do
-    {:reply, Game.new_game(word), state}
+  def handle_call({:new_game, word}, _from, _) do
+    new_state = Game.new_game(word)
+    {:reply, self(), new_state}
   end
   
-  def handle_call({:make_move, game, guess}, _from, state) do
-    result = Game.make_move(game, guess)
-    {:reply, result, state}
+  def handle_call({:make_move, guess}, _from, state) do
+    {new_state, tally} = Game.make_move(state, guess)
+    {:reply, {self(), tally}, new_state}
   end
   
-  def handle_call({:tally, game}, _from, state) do
-    {:reply, Game.tally(game), state}
+  def handle_call(:tally, _from, state) do
+    {:reply, Game.tally(state), state}
   end
   
 end

@@ -1,17 +1,38 @@
 defmodule Hangman.GameSup do
   use Supervisor
   
+  alias Hangman.GameServer
   @name :game_sup
   
+  #############################################################################
+  
   def start_link() do
-    {:ok, _pid} = Supervisor.start_link(__MODULE__, [], name: @name)
+    child_spec = 
+	  Supervisor.child_spec(
+	    GameServer, 
+		start: {GameServer, :start_link, []})
+	  
+    {:ok, _pid} = 
+	  Supervisor.start_link(
+	    [child_spec], 
+		strategy: :simple_one_for_one, 
+		name: @name)
   end
   
   def init(_) do
-    children = [
-      worker(Hangman.GameServer, [])
-    ]
-    supervise(children, strategy: :one_for_one)
+    supervise([], strategy: :simple_one_for_one)
+  end
+  
+  #############################################################################
+  
+  def new_game() do
+    {:ok, pid} = Supervisor.start_child(@name, [])
+	GameServer.new_game(pid)
+  end
+  
+  def new_game(word) do
+    {:ok, pid} = Supervisor.start_child(@name, [word])
+	GameServer.new_game(pid, word)
   end
 
 end

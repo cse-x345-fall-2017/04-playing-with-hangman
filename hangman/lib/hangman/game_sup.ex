@@ -31,7 +31,7 @@ defmodule Hangman.GameSup do
   end
   
   def new_game(word) do
-    {:ok, pid} = Supervisor.start_child(@name, [word])
+    {:ok, pid} = Supervisor.start_child(@name, [])
 	GameServer.new_game(pid, word)
   end
 

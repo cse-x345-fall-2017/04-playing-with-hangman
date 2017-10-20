@@ -1,4 +1,4 @@
-defmodule Hangman do
+    Hangman do
   use Application
   
   alias Hangman.GameServer

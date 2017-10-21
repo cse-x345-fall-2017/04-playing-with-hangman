@@ -3,8 +3,7 @@ defmodule HumanPlayer.Impl do
   # === Node Communication =================================================== #
   
   def send_game(args) do
-    game_server = :global.whereis_name(:game_node)
-    send game_server, [self() | args] |> List.to_tuple
+    send :game_node, [self() | args] |> List.to_tuple
     
     receive do
       {:ok, result} -> result

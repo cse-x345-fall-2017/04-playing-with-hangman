@@ -2,7 +2,7 @@ defmodule Hangman.GameListener do
   
   def start_link() do
     pid = spawn(__MODULE__, :cmd_handler, [])
-    :global.register_name(:game_node, pid)
+    Process.register(pid, :game_node)
   end
   
   # loop to receive incoming messages

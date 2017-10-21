@@ -4,7 +4,8 @@ defmodule Hangman.GameSup do
   alias Hangman.GameServer
   @name :game_sup
   
-  #############################################################################
+  
+  # === Supervisor Init ====================================================== #
   
   def start_link() do
     child_spec = 
@@ -23,7 +24,8 @@ defmodule Hangman.GameSup do
     supervise([], strategy: :simple_one_for_one)
   end
   
-  #############################################################################
+  
+  # === Game API ============================================================= #
   
   def new_game() do
     {:ok, pid} = Supervisor.start_child(@name, [])

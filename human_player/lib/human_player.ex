@@ -8,5 +8,5 @@ defmodule HumanPlayer do
   then interact with you as you make guesses.
   """
 
-  defdelegate play(), to: HumanPlayer.Impl
+  defdelegate play(game_node), to: HumanPlayer.Impl
 end

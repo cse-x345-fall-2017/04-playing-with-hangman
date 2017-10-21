@@ -1,11 +1,27 @@
 defmodule HumanPlayer.Impl do
 
-  def play() do
-    play(Hangman.new_game)
+  # === Node Communication =================================================== #
+  
+  def send_game(args) do
+    game_server = :global.whereis_name(:game_node)
+    send game_server, [self() | args] |> List.to_tuple
+    
+    receive do
+      {:ok, result} -> result
+    end
+  end
+  
+  
+  # === Player Routines ====================================================== #
+
+  def play(game_node) do
+    Node.connect(game_node)
+    send_game([:new_game])
+    |> play_game()
   end
 
-  def play(game) do
-    get_next_move({game, Hangman.tally(game)})
+  def play_game(game) do
+    get_next_move({game, send_game [:tally, game]})
   end
 
   defp get_next_move({ _game, %{ letters: letters, game_state: :won }}) do
@@ -22,8 +38,8 @@ defmodule HumanPlayer.Impl do
     draw_current_board(state)
     report_move_status(state)
     guess = get_guess(state)
-    Hangman.make_move(game, guess)
-    |> get_next_move
+    send_game([:make_move, game, guess])
+    |> get_next_move()
   end
 
   defp report_move_status(%{ game_state: :initializing }) do

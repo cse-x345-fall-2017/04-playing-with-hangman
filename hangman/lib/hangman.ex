@@ -1,6 +1,7 @@
 defmodule Hangman do
   use Application
   
+  alias Hangman.GameListener
   alias Hangman.GameServer
   alias Hangman.GameSup
   
@@ -10,6 +11,7 @@ defmodule Hangman do
   defdelegate tally(game),            to: GameServer
 
   def start(_type, _args) do
+    GameListener.start_link()
     GameSup.start_link()
   end
   

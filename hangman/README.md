@@ -7,7 +7,7 @@ Describe how to run the multinode app.
 
 #### Hangman Game Server:
 
-1. In a terminal, navigate to the Hangman directory. Execute the following 
+1. In a terminal, navigate to the /hangman directory. Execute the following 
    command:
   
        iex --sname game --cookie play -S mix
@@ -15,7 +15,7 @@ Describe how to run the multinode app.
 
 #### Human Player #1:
 
-1. In a new terminal, navigate to the HumanPlayer directory. Execute the 
+1. In a new terminal, navigate to the /human_player directory. Execute the 
    following command:
    
        elixir --sname one --cookie play -S mix run -e HumanPlayer.play(<game_node_name>)
@@ -25,5 +25,5 @@ Describe how to run the multinode app.
 
 #### Human Player #2:
 
-1. In a new terminal, navigate to the HumanPlayer directory. Execute the same
+1. In a new terminal, navigate to the /human_player directory. Execute the same
    command as player #1, but with an --sname of two.

@@ -1,7 +1,7 @@
 defmodule Dictionary.WordList do
   use GenServer
 
-  def start_link(args) do
+  def start_link do
     Agent.start_link(&word_list/0, name: __MODULE__)
   end
 

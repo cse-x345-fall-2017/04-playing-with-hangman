@@ -1,10 +1,9 @@
 defmodule Dictionary.WordList do
 
   def random_word() do
-    word_list()
-    |> Enum.random()
+    Agent.get(Dictionary, fn word_list -> Enum.random(word_list) end)
   end
-  
+
   def word_list do
     "../../assets/words.txt"
     |> Path.expand(__DIR__)

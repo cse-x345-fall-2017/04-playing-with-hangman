@@ -2,8 +2,15 @@ defmodule HumanPlayer.Impl do
 
   # === Node Communication =================================================== #
   
+  def connect(game_node) do
+    Node.connect(game_node)
+    :timer.sleep(500) # must have this for the global name lookup to work
+  end
+  
+  def game_server(), do: :global.whereis_name(:game_node)
+  
   def send_game(args) do
-    send :game_node, [self() | args] |> List.to_tuple
+    send game_server(), [self() | args] |> List.to_tuple
     
     receive do
       {:ok, result} -> result
@@ -12,9 +19,9 @@ defmodule HumanPlayer.Impl do
   
   
   # === Player Routines ====================================================== #
-
+  
   def play(game_node) do
-    Node.connect(game_node)
+    connect(game_node)
     send_game([:new_game])
     |> play_game()
   end

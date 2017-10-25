@@ -2,7 +2,7 @@ defmodule Hangman.Server do
   use GenServer
 
   def init(arg) do
-    { :ok, arg |> Enum.into(%{}) }
+    { :ok, Agent.get(Hangman.Store, fn state -> state end) }
   end
 
   def handle_call({:new_game, word }, _from, _) do
@@ -23,6 +23,10 @@ defmodule Hangman.Server do
   def handle_call({:tally, game}, _from, _) do
     tally = Hangman.Game.tally(game)
     {:reply, tally, game }
+  end
+
+  def terminate(_reason, state) do
+    Agent.update(Hangman.Store, fn _ -> state end)
   end
 
 end

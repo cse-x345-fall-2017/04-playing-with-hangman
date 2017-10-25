@@ -3,6 +3,9 @@ defmodule Hangman.Application do
 
   def start(_type, _args) do
     Supervisor.start_link([
+      %{id: Hangman.Store,
+        start: {Hangman.Store, :start_link, []},
+        restart: :transient},
       %{id: Hangman,
         start: {Hangman, :start_link, []},
         restart: :transient}

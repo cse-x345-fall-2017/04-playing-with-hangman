@@ -1,5 +1,4 @@
 defmodule Hangman.Game do
-
   def new_game(word) do
     %Hangman.State {
       letters: word |> String.codepoints

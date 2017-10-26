@@ -7,8 +7,6 @@ defmodule Dictionary.Supervisor do
     children = [
       worker(Dictionary.Agent, [])
     ]
-
-
     # Strategy: one_for_one
     #           -> if dictionary fails nothing else should fail
     # Restart: permanent
@@ -18,7 +16,7 @@ defmodule Dictionary.Supervisor do
       restart: :permanent,
       name: name
     ]
-
+    # Pattern match on :ok so we get an explicit error
     {:ok, _pid} = Supervisor.start_link(children, opts)
   end
 

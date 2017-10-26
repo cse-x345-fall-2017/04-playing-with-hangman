@@ -1,5 +1,5 @@
 defmodule Dictionary do
-
+  
   use Application
 
   defdelegate random_word(), to: Dictionary.Agent

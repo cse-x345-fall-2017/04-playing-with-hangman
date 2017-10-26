@@ -3,8 +3,7 @@ defmodule Dictionary.Supervisor do
   @default_name PragDave
 
   def start_link(name) do
-    import Supervisor.Spec, warn: false
-
+    import Supervisor.Spec
     children = [
       worker(Dictionary.Agent, [])
     ]
@@ -14,11 +13,11 @@ defmodule Dictionary.Supervisor do
       restart: :permanent,
       name: name
     ]
-    {:ok, pid} = Supervisor.start_link(children, opts)
-    pid
+
+    {:ok, _pid} = Supervisor.start_link(children, opts)
   end
 
-  def start_link do
+  def start_link() do
     start_link(@default_name)
   end
 

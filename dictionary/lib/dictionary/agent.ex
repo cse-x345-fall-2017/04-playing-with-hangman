@@ -2,10 +2,8 @@ defmodule Dictionary.Agent do
 
   @default_name :PragDave
 
-  alias Dictionary.WordList
-
   def start_link() do
-    Agent.start_link(&WordList.word_list/0, name: @default_name)
+    Agent.start_link(&Dictionary.WordList.word_list/0, name: @default_name)
   end
 
   def random_word(name) do

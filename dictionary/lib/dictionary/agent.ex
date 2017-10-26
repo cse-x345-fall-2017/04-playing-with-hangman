@@ -5,10 +5,10 @@ defmodule Dictionary.Agent do
   alias Dictionary.WordList
 
   def start_link(name) do
-    Agent.start_link(WordList.word_list, name: name)
+    Agent.start_link(&WordList.word_list/0, name: name)
   end
 
-  def start_link() do
+  def start_link do
     start_link(@default_name)
   end
 

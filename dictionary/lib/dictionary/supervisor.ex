@@ -10,7 +10,9 @@ defmodule Dictionary.Supervisor do
     ]
 
     opts = [
-
+      strategy: :one_for_one,
+      restart: :permanent,
+      name: name
     ]
     {:ok, pid} = Supervisor.start_link(children, opts)
     pid

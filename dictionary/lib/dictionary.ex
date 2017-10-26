@@ -1,10 +1,11 @@
 defmodule Dictionary do
+
   use Application
 
-  defdelegate random_word(), to: Dictionary.Agent
+  defdelegate random_word(), to: Dictionary.WordList
 
   def start(_type, _args) do
-    Dictonary.Supervisor.new_dictionary()
+    Dictionary.Supervisor.new_dictionary()
   end
 
 end

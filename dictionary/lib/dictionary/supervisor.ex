@@ -1,4 +1,5 @@
 defmodule Dictionary.Supervisor do
+  use GenServer
 
   @default_name __MODULE__
 

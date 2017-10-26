@@ -11,4 +11,5 @@ defmodule Dictionary.WordList do
     |> File.read!()
     |> String.split(~r/\n/)
   end
+
 end

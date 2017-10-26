@@ -15,7 +15,7 @@ defmodule Hangman.Mixfile do
   def application do
     [
       extra_applications: [ :logger ],
-      mod:                { Hangman , [] }
+      mod:                { Hangman.Application , [] }
     ]
   end
 

@@ -8,6 +8,11 @@ defmodule Dictionary.Supervisor do
       worker(Dictionary.Agent, [])
     ]
 
+
+    # Strategy: one_for_one
+    #           -> if dictionary fails nothing else should fail
+    # Restart: permanent
+    #           -> we always want a dictionary running
     opts = [
       strategy: :one_for_one,
       restart: :permanent,

@@ -2,10 +2,13 @@ defmodule Dictionary do
 
   use Application
 
-  defdelegate random_word(), to: Dictionary.WordList
+  alias Dictionary.Supervisor
+
+  defdelegate random_word(), to: Dictionary.Agent
 
   def start(_type, _args) do
-    Dictionary.Supervisor.new_dictionary()
+    IO.puts "HELLO"
+    Dictionary.Supervisor.start_link()
   end
 
 end

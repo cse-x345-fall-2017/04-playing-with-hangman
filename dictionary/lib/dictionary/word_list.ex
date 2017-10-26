@@ -1,15 +1,13 @@
 defmodule Dictionary.WordList do
 
-  use GenServer
-
-  @default_name __MODULE__
-
-  def random_word(name) do
-    Agent.get(&Enum.random(&1)/1, name: name)
+  def random_word(word_list) do
+    word_list |>
+    Enum.random()
   end
 
   def random_word() do
-    random_word(@default_name)
+    word_list() |>
+    random_word
   end
 
   def word_list do

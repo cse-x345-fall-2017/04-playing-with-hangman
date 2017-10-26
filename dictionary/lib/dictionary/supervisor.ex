@@ -1,15 +1,23 @@
 defmodule Dictionary.Supervisor do
-  use GenServer
 
-  @default_name __MODULE__
+  @default_name PragDave
 
-  def new_dictionary(name) do
-    {:ok, agent} = Agent.start_link(Dictionary.WordList.word_list/0, name: name)
-    agent
+  def start_link(name) do
+    import Supervisor.Spec, warn: false
+
+    children = [
+      worker(Dictionary.Agent, [])
+    ]
+
+    opts = [
+
+    ]
+    {:ok, pid} = Supervisor.start_link(children, opts)
+    pid
   end
 
-  def new_dictionary() do
-    new_dictionary(@default_name)
+  def start_link do
+    start_link(@default_name)
   end
 
 end

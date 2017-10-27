@@ -11,7 +11,7 @@ defmodule Hangman.Supervisor do
       worker(Hangman.Server, [], restart: :transient)
     ]
 
-    supervise(children, strategy: :one_for_one)
+    supervise(children, strategy: :simple_one_for_one)
   end
 
 end

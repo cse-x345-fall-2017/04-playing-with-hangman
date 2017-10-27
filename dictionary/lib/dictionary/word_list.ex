@@ -1,8 +1,14 @@
 defmodule Dictionary.WordList do
 
+  @me WordListPid
+
+  def start_link() do
+    Agent.start_link(fn -> "" end, name: @me)
+  end
+
   def random_word() do
-    word_list()
-    |> Enum.random()
+    Agent.update(@me, fn _state -> get_word() end)
+    Agent.get(@me, fn state -> state end)
   end
   
   def word_list do
@@ -10,5 +16,10 @@ defmodule Dictionary.WordList do
     |> Path.expand(__DIR__)
     |> File.read!()
     |> String.split(~r/\n/)
+  end
+  
+  defp get_word do
+    word_list()
+    |> Enum.random
   end
 end

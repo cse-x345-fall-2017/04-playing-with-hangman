@@ -7,7 +7,7 @@ defmodule Dictionary.Application do
     import Supervisor.Spec, warn: false
 
     children = [
-      worker(Dictionary.Store, [], restart: :transient)
+      worker(Dictionary.Store, [], restart: :permanent)
     ]
     opts = [ strategy: :one_for_one,
              name:     Dictionary.Supervisor ]

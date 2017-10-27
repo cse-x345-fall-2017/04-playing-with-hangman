@@ -9,4 +9,3 @@ defmodule Hangman.State do
   )
 
 end
-

@@ -12,7 +12,7 @@ defmodule Dictionary.Application do
     opts = [ strategy: :one_for_one,
              name:     Dictionary.Supervisor ]
 
-    Supervisor.start_link(children, opts)
+    { :ok, _pid } = Supervisor.start_link(children, opts)
 
   end
 

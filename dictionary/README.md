@@ -1,5 +1,4 @@
 
-Please write a couple of sentences explaining your choice of restart
-strategy.
+I picked the permanent restart strategy for my dictionary as I think we should always have a dictionary process running when we plan on accessing the random_word calls.  This way we can ensure that we always have access to this call.  Also, this process seems very unlikely to crash so in the case that it does for some reason (likely some sort of edge case use) we should simply reboot it - it seems unlikely that some sort of malicious user will be able to frequently crash this process so I see no reason to not reboot it when it crashes.
 
-
+You could also make an argument for the :transient strategy.  This would allow us to shut down this process if we ever decide to without rebooting and still cover the case of abnormal exits.  I opted for permanent because I believe calls to random_word should always succeed (even without passing a name).

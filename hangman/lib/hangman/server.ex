@@ -12,24 +12,24 @@ defmodule Hangman.Server do
   def handle_call({:new_game, word}, _from, _) do
     Game.new_game(word) |>
     update_state |>
-    reply
+    reply_game
   end
 
   def handle_call({:new_game}, _from, _) do
     Game.new_game |>
     update_state |>
-    reply
+    reply_game
   end
 
   def handle_call({:make_move, game, guess}, _from, _) do
     Game.make_move(game, guess) |>
     update_state |>
-    reply(true, false)
+    reply
   end
 
   def handle_call({:tally, game}, _from, _) do
     Game.tally(game) |>
-    reply(true, false)
+    reply_tally
   end
 
   ### Server workings calls
@@ -44,22 +44,15 @@ defmodule Hangman.Server do
     game
   end
 
-  # Can we do named arguments with default values?
-  # I'd prefer this to look like
-  # reply(game, send_tally: true, send_game: true)
-  def reply(game, send_tally\\true, send_game\\true) do
-    inner_reply(game, Game.tally(game), send_tally, send_game)
+  def reply_tally({game, tally}) do
+    {:reply, {game, tally}, game}
   end
 
-  defp inner_reply(game, _tally, true, false) do
+  def reply_game(game) do
     {:reply, game, game}
   end
 
-  defp inner_reply(game, tally, true, true) do
+  def reply(game, tally) do
     {:reply, tally, game}
-  end
-
-  defp inner_reply(game, tally, true, false) do
-    {:reply, {game, tally}, game}
   end
 end

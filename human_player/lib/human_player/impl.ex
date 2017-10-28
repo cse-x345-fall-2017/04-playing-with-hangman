@@ -1,11 +1,15 @@
 defmodule HumanPlayer.Impl do
 
-  def play() do
-    play(Hangman.new_game)
-  end
+  @number :rand.uniform()
+
 
   def play(game) do
-    get_next_move({game, Hangman.tally(game)})
+    get_next_move({game, Hangman.tally(@number)})
+  end
+
+  def connect(node_name \\ :game@localhost) do
+    Node.connect(node_name)
+    play(Hangman.new_game(@number))
   end
 
   defp get_next_move({ _game, %{ letters: letters, game_state: :won }}) do
@@ -18,11 +22,11 @@ defmodule HumanPlayer.Impl do
     IO.puts "\nSorry, you lose. The word was: #{letters |> Enum.join}"
   end
 
-  defp get_next_move({game, state}) do
+  defp get_next_move({_game, state}) do
     draw_current_board(state)
     report_move_status(state)
     guess = get_guess(state)
-    Hangman.make_move(game, guess)
+    Hangman.make_move(@number, guess)
     |> get_next_move
   end
 

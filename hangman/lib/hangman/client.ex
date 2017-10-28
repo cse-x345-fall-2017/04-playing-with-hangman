@@ -1,16 +1,16 @@
 defmodule Hangman.Client do
   def new_game() do
-    GenServer.call(Hangman, {:make_move})
+    GenServer.call(Hangman.Server, {:new_game})
   end
   def new_game(word) do
-    GenServer.call(Hangman, {:make_move, word})
+    GenServer.call(Hangman.Server, {:new_game, word})
   end
 
   def tally(game) do
-    GenServer.call(Hangman, {:tally, game})
+    GenServer.call(Hangman.Server, {:tally, game})
   end
 
   def make_move(game, guess) do
-    GenServer.call(Hangman, {:make_move, game, guess})
+    GenServer.call(Hangman.Server, {:make_move, game, guess})
   end
 end

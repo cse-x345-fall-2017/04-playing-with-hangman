@@ -13,6 +13,7 @@ defmodule Hangman.Server do
   end
 
   def handle_call({:new_game, word}, _from, _) do
+    IO.puts("AYY LMAO")
     Game.new_game(word) |>
     update_state |>
     reply

@@ -1,19 +1,15 @@
 defmodule Hangman.Server do
   use GenServer
-  @store :data_store
+
+  @store Hangman.DataStore
 
   alias Hangman.Game, as: Game
 
-  def start_link do
-    Agent.start_link(fn -> "" end, name: @store)
-  end
-
   def init do
-      {:ok, Agent.get(@store, fn state -> state end)}
+    {:ok, Agent.get(@store, fn state -> state end)}
   end
 
   def handle_call({:new_game, word}, _from, _) do
-    IO.puts("AYY LMAO")
     Game.new_game(word) |>
     update_state |>
     reply

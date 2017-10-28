@@ -45,7 +45,7 @@ defmodule Hangman.Server do
   end
 
   def reply_tally({game, tally}) do
-    {:reply, {game, tally}, game}
+    {:reply, tally, game}
   end
 
   def reply_game(game) do
@@ -53,6 +53,6 @@ defmodule Hangman.Server do
   end
 
   def reply({game, tally}) do
-    {:reply, tally, game}
+    {:reply, {game, tally}, game}
   end
 end

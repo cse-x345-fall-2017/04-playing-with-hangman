@@ -7,8 +7,6 @@ defmodule Hangman.Application do
     import Supervisor.Spec, warn: false
 
     children = [
-      #worker(Hangman.State, [] )
-
       worker(Hangman,  [] )
     ]
 

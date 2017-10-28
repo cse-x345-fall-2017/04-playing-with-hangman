@@ -32,15 +32,15 @@ defmodule Hangman.Server do
     reply_tally
   end
 
-  ### Server workings calls
+  ### Inner Server workings calls ###
 
   def update_state({game, tally}) do
-    Agent.update(@store, &(&1))
+    Agent.update(@store, fn _ -> game end)
     {game, tally}
   end
 
   def update_state(game) do
-    Agent.update(@store, &(&1))
+    Agent.update(@store, fn _ -> game end)
     game
   end
 
@@ -52,7 +52,7 @@ defmodule Hangman.Server do
     {:reply, game, game}
   end
 
-  def reply(game, tally) do
+  def reply({game, tally}) do
     {:reply, tally, game}
   end
 end

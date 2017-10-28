@@ -29,7 +29,8 @@ defmodule Hangman.Server do
 
   def handle_call({:tally, game}, _from, _) do
     Game.tally(game) |>
-    reply_tally
+    reply_tally(game)
+
   end
 
   ### Inner Server workings calls ###
@@ -44,7 +45,7 @@ defmodule Hangman.Server do
     game
   end
 
-  def reply_tally({game, tally}) do
+  def reply_tally(tally, game) do
     {:reply, tally, game}
   end
 

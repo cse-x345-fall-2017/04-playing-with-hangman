@@ -1,29 +1,46 @@
 defmodule HumanPlayer.Impl do
 
-  def play() do
-    play(Hangman.new_game)
+  @server_name Hangman.Controller
+  @name :client
+  
+  def play(node) do
+    Process.register(self(), @name)
+    node
+    |> Node.connect
+    |> play_start(node)
   end
 
-  def play(game) do
-    get_next_move({game, Hangman.tally(game)})
+  def play_start(:true, node) do
+    send { @server_name, node }, { self(), @name, node(), :new_game }
+    state = receive do
+      { :new_game, state } -> state
+      end
+    get_next_move(state, node)
   end
 
-  defp get_next_move({ _game, %{ letters: letters, game_state: :won }}) do
+  def play_start(:false, _node) do
+    IO.puts "Connection failed"
+  end
+
+  defp get_next_move({%{ letters: letters, game_state: :won }, _tally}, _node) do
     IO.puts "\nCONGRATULATIONS! The word was #{letters |> Enum.join}"
   end
 
-  defp get_next_move({_game, %{ letters: letters, game_state: :lost }}) do
+  defp get_next_move({%{ letters: letters, game_state: :lost }, _tally}, _node) do
     clear_screen()
     IO.puts drawing(0)
     IO.puts "\nSorry, you lose. The word was: #{letters |> Enum.join}"
   end
 
-  defp get_next_move({game, state}) do
+  defp get_next_move({_game, state}, node) do
     draw_current_board(state)
     report_move_status(state)
     guess = get_guess(state)
-    Hangman.make_move(game, guess)
-    |> get_next_move
+    send { @server_name, node }, { self(), :make_move, guess }
+    state = receive do
+      { :next_move, state } -> state
+      end
+    get_next_move(state, node)
   end
 
   defp report_move_status(%{ game_state: :initializing }) do

@@ -1,8 +1,9 @@
 defmodule Dictionary.WordList do
 
-  def random_word() do
-    word_list()
+  def random_word(state) do
+    state
     |> Enum.random()
+    |> String.trim()
   end
   
   def word_list do

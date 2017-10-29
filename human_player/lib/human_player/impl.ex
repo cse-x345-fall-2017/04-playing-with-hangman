@@ -1,15 +1,13 @@
 defmodule HumanPlayer.Impl do
 
-  @number :rand.uniform()
-
-
   def play(game) do
-    get_next_move({game, Hangman.tally(@number)})
+    get_next_move({game, Hangman.tally(Node.self)})
   end
 
   def connect(node_name \\ :game@localhost) do
     Node.connect(node_name)
-    play(Hangman.new_game(@number))
+    play(Hangman.new_game(Node.self))
+#    play(Task.Supervisor.async(Hangman.Supervisor, Hangman, :new_game, [Node.self]))
   end
 
   defp get_next_move({ _game, %{ letters: letters, game_state: :won }}) do
@@ -26,7 +24,7 @@ defmodule HumanPlayer.Impl do
     draw_current_board(state)
     report_move_status(state)
     guess = get_guess(state)
-    Hangman.make_move(@number, guess)
+    Hangman.make_move(Node.self, guess)
     |> get_next_move
   end
 

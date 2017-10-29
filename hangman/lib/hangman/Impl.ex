@@ -11,22 +11,23 @@ defmodule Hangman.Impl do
     end
   end
 
-#  def new_game(pid) do
-#    GenServer.call(pid, :new_game)
-#  end
-#
-#  def new_game(pid, word) do
-#    GenServer.call(pid, { :new_game, word })
-#  end
+  def new_game(game_id, word) do
+    case GenServer.whereis(ref(game_id)) do
+      nil ->
+        game = Hangman.Game.new_game(word)
+        { :ok, _pid } = Supervisor.start_child(Hangman.Supervisor,[game_id, game])
+        game
+      _exists ->
+        { :error, :game_exists}
+    end
+  end
 
   def make_move(game_id, guess) do
     make_call(game_id, { :make_move, guess })
-#    GenServer.call(ref(game_id), { :make_move, game, guess })
   end
 
   def tally(game_id) do
     make_call(game_id, { :tally })
-#    GenServer.call(ref(game_id), { :tally, game })
   end
 
   defp make_call(game_id, tuple) do

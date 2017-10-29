@@ -7,7 +7,6 @@ defmodule HumanPlayer.Impl do
   def connect(node_name \\ :game@localhost) do
     Node.connect(node_name)
     play(Hangman.new_game(Node.self))
-#    play(Task.Supervisor.async(Hangman.Supervisor, Hangman, :new_game, [Node.self]))
   end
 
   defp get_next_move({ _game, %{ letters: letters, game_state: :won }}) do

@@ -34,7 +34,8 @@ defmodule Hangman.Impl do
   defp make_game(game, game_id) do
     case GenServer.whereis(ref(game_id)) do
       nil ->
-        { :ok, _pid } = Supervisor.start_child(Hangman.Supervisor,[game_id, game])
+        { :ok, _pid } = Supervisor.start_child( Hangman.Supervisor,
+                                                [game_id, game] )
         game
       _exists ->
         { :error, :game_exists }

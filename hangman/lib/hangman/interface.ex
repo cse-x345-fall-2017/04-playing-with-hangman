@@ -1,11 +1,11 @@
 defmodule Hangman.Interface do
 
   def start_link() do
-    pid = spawn_link(__MODULE__, :send_receive, [])
+    pid = spawn_link(__MODULE__, :messenger, [])
     :global.register_name(:server, pid)
   end
 
-  def send_receive() do
+  def messenger() do
 
     receive do
       { from, :new_game, game_id } ->
@@ -21,7 +21,7 @@ defmodule Hangman.Interface do
         send from, Hangman.Impl.tally(game_id)
     end
 
-    send_receive()
+    messenger()
 
   end
 

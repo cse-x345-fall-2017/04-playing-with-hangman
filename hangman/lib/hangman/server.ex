@@ -5,7 +5,8 @@ defmodule Hangman.Server do
   use GenServer
 
   def start_link(game_id, game) do
-    {:ok, _pid} = GenServer.start_link(__MODULE__, [game], name: ref(game_id))
+    {:ok, _pid} = GenServer.start_link( __MODULE__, [game],
+                                        name: ref(game_id) )
   end
 
 

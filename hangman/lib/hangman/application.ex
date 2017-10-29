@@ -5,10 +5,10 @@ defmodule Hangman.Application do
     import Supervisor.Spec, warn: false
 
     children = [
-      worker(Hangman.Server, args)
+      supervisor(Hangman.Supervisor, args)
     ]
     
-    opts = [strategy: :one_for_one, name: Hangman.Supervisor]
+    opts = [strategy: :one_for_one]
     Supervisor.start_link(children, opts)
   end
 end

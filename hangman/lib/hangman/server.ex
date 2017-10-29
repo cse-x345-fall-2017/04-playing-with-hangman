@@ -2,8 +2,17 @@ defmodule Hangman.Server do
   use GenServer
   alias Hangman.Game, as: Game
 
-  def init (args \\ []) do
-    { :ok, args }
+
+
+  def init ([]) do
+    { :ok, Game.new_game() }
+  end                             # End of init
+
+
+
+
+  def init (args) do
+    { :ok, Game.new_game(args) }
   end                             # End of init
 
 
@@ -30,8 +39,8 @@ defmodule Hangman.Server do
 
 
 
-  def handle_call({ :tally, game }, _from, state) do
-    { :reply, Game.tally(game), state  }
+  def handle_call({ :tally }, _from, state) do
+    { :reply, Game.tally(state), state  }
   end                             # End of hand_call for tally
 
 

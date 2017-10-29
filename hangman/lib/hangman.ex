@@ -23,8 +23,8 @@ defmodule Hangman do
   end                                                        # End new_game with init_word
 
 
-  def tally(game) do
-    GenServer.call(@me, { :tally, game })
+  def tally(_game) do
+    GenServer.call(@me, { :tally })
   end                                                        # End new_game with init_word
 
 

@@ -8,15 +8,6 @@ defmodule Hangman.Server do
     { :ok, Game.new_game() }
   end                             # End of init
 
-
-
-
-  def init (args) do
-    { :ok, Game.new_game(args) }
-  end                             # End of init
-
-
-
   def handle_call({ :new_game }, _from, _state) do
     newgame = Game.new_game()
     { :reply, newgame, newgame }
@@ -46,5 +37,5 @@ defmodule Hangman.Server do
 
 
 
-end               # End of Server
+end                               # End of Server
 

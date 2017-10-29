@@ -1,3 +1,1 @@
-8k students only:
-
-Describe how to run the multinode app.
+Again I felt that the :transiet restart option was more approriate so that the user can terminate the process using normal methods. The only reason the game should restart is if there was an abnormal terminate.

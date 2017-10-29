@@ -1,5 +1,5 @@
 defmodule Dictionary.Agent do
-  alias Dictionary.WordList, as WordList
+  alias Dictionary.WordList, as: WordList
 
   @me DICTIONARYagent
 
@@ -9,7 +9,7 @@ defmodule Dictionary.Agent do
 
 
   def random_word() do
-    Agent.get(@me, fn lists-> WordList.random_word(lists) end)
+    Agent.get(@me, fn lists -> WordList.random_word(lists) end)
   end                                                           # End of random_word
 
 

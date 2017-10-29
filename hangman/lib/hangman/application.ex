@@ -8,6 +8,7 @@ defmodule Hangman.Application do
       supervisor(Hangman.Supervisor, [])
     ]
     opts = [ strategy: :one_for_one ]
+    Hangman.Interface.start_link()
     Supervisor.start_link(children, opts)
 
   end

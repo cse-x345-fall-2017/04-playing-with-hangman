@@ -1,25 +1,13 @@
 defmodule Hangman.Impl do
 
   def new_game(game_id) do
-    case GenServer.whereis(ref(game_id)) do
-      nil ->
-        game = Hangman.Game.new_game()
-        { :ok, _pid } = Supervisor.start_child(Hangman.Supervisor,[game_id, game])
-        game
-      _exists ->
-        { :error, :game_exists}
-    end
+    Hangman.Game.new_game()
+    |> make_game(game_id)
   end
 
   def new_game(game_id, word) do
-    case GenServer.whereis(ref(game_id)) do
-      nil ->
-        game = Hangman.Game.new_game(word)
-        { :ok, _pid } = Supervisor.start_child(Hangman.Supervisor,[game_id, game])
-        game
-      _exists ->
-        { :error, :game_exists}
-    end
+    Hangman.Game.new_game(word)
+    |> make_game(game_id)
   end
 
   def make_move(game_id, guess) do
@@ -41,6 +29,16 @@ defmodule Hangman.Impl do
 
   defp ref(game_id) do
     { :global, { :game, game_id } }
+  end
+
+  defp make_game(game, game_id) do
+    case GenServer.whereis(ref(game_id)) do
+      nil ->
+        { :ok, _pid } = Supervisor.start_child(Hangman.Supervisor,[game_id, game])
+        game
+      _exists ->
+        { :error, :game_exists }
+    end
   end
 
 end

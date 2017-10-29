@@ -4,7 +4,7 @@ defmodule HumanPlayer.Impl do
   
   def connect(game_node) do
     Node.connect(game_node)
-    :timer.sleep(500) # must have this for the global name lookup to work
+    :global.sync()
   end
   
   def game_server(), do: :global.whereis_name(:game_node)

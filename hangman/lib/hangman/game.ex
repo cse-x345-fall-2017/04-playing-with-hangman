@@ -20,8 +20,21 @@ defmodule Hangman.Game do
     |> accept_move(guess, MapSet.member?(game.used, guess))
     |> return_with_tally()
   end
-
+  
+  def tally(game = %{game_state: :lost}) do
+    create_tally(game)
+    |> Map.put(:letters, game.letters)
+  end
+  
   def tally(game) do
+    create_tally(game)
+  end
+
+
+  ############################################################
+
+  
+  defp create_tally(game) do
     %{
       game_state: game.game_state,
       turns_left: game.turns_left,
@@ -30,10 +43,6 @@ defmodule Hangman.Game do
       last_guess: game.last_guess,
     }
   end
-
-
-  ############################################################
-
   
   defp accept_move(game, _guess, _already_guessed = true) do
     Map.put(game, :game_state, :already_used)
@@ -61,8 +70,8 @@ defmodule Hangman.Game do
        turns_left: turns_left - 1
     }
   end
-
-
+  
+  
   defp reveal_guessed(letters, used) do
     letters
     |> Enum.map(fn letter -> reveal_letter(letter, MapSet.member?(used, letter)) end)

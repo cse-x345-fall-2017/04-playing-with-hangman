@@ -19,7 +19,6 @@ defmodule HumanPlayer.Mixfile do
 
   defp deps do
     [
-      { :hangman, path: "../hangman" }
     ]
   end
 end

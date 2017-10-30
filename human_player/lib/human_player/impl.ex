@@ -1,11 +1,23 @@
 defmodule HumanPlayer.Impl do
 
-  def play() do
-    play(Hangman.new_game)
+  defp messenger(tuple) do
+    server = :global.whereis_name(:server)
+    send server, tuple
+
+    receive do
+      result ->
+        result
+    end
   end
 
   def play(game) do
-    get_next_move({game, Hangman.tally(game)})
+    get_next_move({ game, messenger({ self(), :tally, Node.self() }) })
+  end
+
+  def connect(node_name \\ :game@localhost) do
+    Node.connect(node_name)
+    :timer.sleep(500)
+    play(messenger({ self(), :new_game, Node.self() }))
   end
 
   defp get_next_move({ _game, %{ letters: letters, game_state: :won }}) do
@@ -18,11 +30,11 @@ defmodule HumanPlayer.Impl do
     IO.puts "\nSorry, you lose. The word was: #{letters |> Enum.join}"
   end
 
-  defp get_next_move({game, state}) do
+  defp get_next_move({_game, state}) do
     draw_current_board(state)
     report_move_status(state)
     guess = get_guess(state)
-    Hangman.make_move(game, guess)
+    messenger({ self(), :make_move, Node.self(), guess })
     |> get_next_move
   end
 

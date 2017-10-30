@@ -1,7 +1,7 @@
 defmodule Dictionary.WordList do
 
-  def random_word() do
-    word_list()
+  def random_word(words_list) do
+    words_list
     |> Enum.random()
   end
   
@@ -11,4 +11,5 @@ defmodule Dictionary.WordList do
     |> File.read!()
     |> String.split(~r/\n/)
   end
+
 end

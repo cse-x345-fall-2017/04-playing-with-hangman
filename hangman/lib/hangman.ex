@@ -1,9 +1,10 @@
 defmodule Hangman do
-  alias Hangman.Game, as: Game
+
+  alias Hangman.Impl, as: Server
   
-  defdelegate make_move(game, guess), to: Game
-  defdelegate new_game(),             to: Game
-  defdelegate new_game(word),         to: Game
-  defdelegate tally(game),            to: Game
+  defdelegate make_move(game_id, guess), to: Server
+  defdelegate new_game(game_id),         to: Server
+  defdelegate new_game(game_id, word),   to: Server
+  defdelegate tally(game_id),            to: Server
 
 end

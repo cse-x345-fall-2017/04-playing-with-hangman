@@ -1,5 +1,7 @@
 defmodule Dictionary do
 
-  defdelegate random_word(), to: Dictionary.WordList
+  defdelegate start_link(), to: Dictionary.DictionaryImpl
+
+  defdelegate random_word(), to: Dictionary.DictionaryImpl
 
 end

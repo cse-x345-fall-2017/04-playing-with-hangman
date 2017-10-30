@@ -16,7 +16,7 @@ defmodule HangmanTest do
     { _game, tally } = Hangman.make_move(game, "x")
     assert tally.game_state != :already_used
   end
-  
+
   test "second occurrence of letter is a duplicate" do
     game = Hangman.new_game()
     { game, tally } = Hangman.make_move(game, "x")
@@ -24,14 +24,14 @@ defmodule HangmanTest do
     { _game, tally } = Hangman.make_move(game, "x")
     assert tally.game_state == :already_used
   end
-  
+
   test "a good guess is recognized" do
     game = Hangman.new_game("wibble")
     { _game, tally } = Hangman.make_move(game, "w")
     assert tally.game_state == :good_guess
     assert tally.turns_left == 7
   end
-  
+
   test "a guessed word is a won game" do
     game = Hangman.new_game("wibble")
     { game, tally } = Hangman.make_move(game, "w")
@@ -50,14 +50,14 @@ defmodule HangmanTest do
     assert tally.game_state == :won
     assert tally.turns_left == 7
   end
-  
+
   test "bad guess is recognized" do
     game = Hangman.new_game("wibble")
     { _game, tally } = Hangman.make_move(game, "x")
     assert tally.game_state == :bad_guess
     assert tally.turns_left == 6
   end
-  
+
   test "lost game is recognized" do
     game = Hangman.new_game("w")
     { game, tally } = Hangman.make_move(game, "a")

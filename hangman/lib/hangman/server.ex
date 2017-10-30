@@ -4,6 +4,8 @@ defmodule Hangman.Server do
   use GenServer
   @supname __MODULE__
 
+ 
+
  def start_link() do
  GenServer.start_link(__MODULE__, 0, name: @supname)
  end
@@ -24,13 +26,13 @@ defmodule Hangman.Server do
  GenServer.call(@supname,{:new_game,word})
  end
 
- def handle_call(:new_game) do 
+ def handle_call(:new_game,_from,_state) do 
  {:reply,self(),Game.new_game}
  end
 
 
 
- def handle_call({:new_game,word}) do 
+ def handle_call({:new_game,word},_from,_state) do 
  {:reply,self(),Game.new_game(word)}
  end
 

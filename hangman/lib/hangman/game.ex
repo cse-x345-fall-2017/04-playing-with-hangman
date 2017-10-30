@@ -1,5 +1,4 @@
 defmodule Hangman.Game do
-
   def new_game(word) do
     %Hangman.State {
       letters: word |> String.codepoints
@@ -19,6 +18,16 @@ defmodule Hangman.Game do
     %{ game | last_guess: guess }
     |> accept_move(guess, MapSet.member?(game.used, guess))
     |> return_with_tally()
+  end
+
+  def tally(game = %{ game_state: :lost }) do
+    %{
+      game_state: game.game_state,
+      turns_left: game.turns_left,
+      letters:    game.letters,
+      used:       game.used |> Enum.to_list,
+      last_guess: game.last_guess,
+    }
   end
 
   def tally(game) do

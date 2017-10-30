@@ -1,5 +1,5 @@
+I originally picked the permanent restart strategy for my dictionary as I thought we should always have a dictionary process running when we plan on accessing the random_word calls.  This way we can ensure that we always have access to this call.  Also, this process seems very unlikely to crash so in the case that it does for some reason (likely some sort of edge case use) we should simply reboot it - it seems unlikely that some sort of malicious user will be able to frequently crash this process so I see no reason to not reboot it when it crashes.
 
-Please write a couple of sentences explaining your choice of restart
-strategy.
+That being said - I ultimately found the argument for temporal to be stronger in this case.  If the user knows that they are done using the dictionary they should be given the autonomy to shut down the process if they so wish.  This is why I ultimately picked transient over permanent.  I do think that if a bug shuts the process down we should reboot.
 
-
+This allows us to shut down this process if we ever decide to without rebooting and still cover the case of abnormal exits.

@@ -7,5 +7,5 @@ defmodule Hangman.State do
     turns_left: 7,
     used:       MapSet.new([])
   )
-end
 
+end

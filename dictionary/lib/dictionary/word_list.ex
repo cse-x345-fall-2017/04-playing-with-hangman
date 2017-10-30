@@ -1,8 +1,8 @@
 defmodule Dictionary.WordList do
-
+  use Agent
   @me WordListPid
 
-  def start_link() do
+  def start_link(_args) do
     Agent.start_link(fn -> "" end, name: @me)
   end
 

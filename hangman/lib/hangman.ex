@@ -14,7 +14,7 @@ defmodule Hangman do
       worker(Hangman.Stash,[]),
       supervisor(Hangman.SubSupervisor,[])
     ]
-    opts =[ strategy: :rest_for_one]
+    opts =[ strategy: :one_for_one]
     pid = spawn(__MODULE__,:listener,[])
     :global.register_name(@global_name,pid)
     Supervisor.start_link(children,opts)

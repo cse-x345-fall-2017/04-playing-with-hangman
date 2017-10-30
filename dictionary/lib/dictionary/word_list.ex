@@ -1,14 +1,14 @@
 defmodule Dictionary.WordList do
 
+  use GenServer
+
+  @server DictionaryServer
+
   def random_word() do
-    word_list()
-    |> Enum.random()
+    GenServer.call(@server, { :get })
   end
-  
-  def word_list do
-    "../../assets/words.txt"
-    |> Path.expand(__DIR__)
-    |> File.read!()
-    |> String.split(~r/\n/)
+
+  def start_link(default \\ []) do
+    GenServer.start_link(Dictionary.Server, default, name: @server)
   end
 end

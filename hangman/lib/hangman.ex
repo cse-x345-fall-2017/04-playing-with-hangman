@@ -1,4 +1,5 @@
 defmodule Hangman do
+
   alias Hangman.Client, as: Client
 
   defdelegate new_game(),                   to: Client

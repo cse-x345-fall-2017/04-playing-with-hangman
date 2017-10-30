@@ -20,6 +20,16 @@ defmodule Hangman.Game do
     |> return_with_tally()
   end
 
+  def tally(game = %{ game_state: :lost }) do
+    %{
+      game_state: game.game_state,
+      turns_left: game.turns_left,
+      letters:    game.letters,
+      used:       game.used |> Enum.to_list,
+      last_guess: game.last_guess,
+    }
+  end
+
   def tally(game) do
     %{
       game_state: game.game_state,

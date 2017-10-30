@@ -1,13 +1,7 @@
 defmodule Hangman.Server do
   use GenServer
 
-  @store Hangman.DataStore
-
   alias Hangman.Game, as: Game
-
-  def init do
-    {:ok, Agent.get(@store, fn state -> state end)}
-  end
 
   def handle_call({:new_game, word}, _from, _) do
     Game.new_game(word) |>
@@ -29,7 +23,7 @@ defmodule Hangman.Server do
     reply_tally(game)
   end
 
-  ### Inner Server workings calls ###
+  ### Reply calls to update state
 
   def reply_tally(tally, game) do
     {:reply, tally, game}

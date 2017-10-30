@@ -1,5 +1,6 @@
 defmodule Dictionary do
-
-  defdelegate random_word(), to: Dictionary.WordList
+  
+  defdelegate random_word(), to: Dictionary.Agent
+  defdelegate start_link(),  to: Dictionary.Agent
 
 end

@@ -19,6 +19,11 @@ defmodule HumanPlayer.Impl do
   end
 
   defp get_next_move({game, state}) do
+    
+    #debugging
+    IO.inspect(game)
+    IO.inspect(state)
+
     draw_current_board(state)
     report_move_status(state)
     guess = get_guess(state)
@@ -42,7 +47,8 @@ defmodule HumanPlayer.Impl do
   end
 
   def get_guess(state = %{ used: used }) do
-    if length(used) > 0 do
+    #if length(used) > 0 do
+    if MapSet.size(used) > 0 do
       IO.puts "Letters used so far: #{ used |> Enum.join(", ")}"
     end
     guess_until_valid(state)

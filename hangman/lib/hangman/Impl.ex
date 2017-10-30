@@ -1,11 +1,12 @@
-defmodule Hangman.Game do
+defmodule Hangman.Impl do
+
 
   def new_game(word) do
     %Hangman.State {
       letters: word |> String.codepoints
     }
   end
-  
+
   def new_game() do
     new_game(Dictionary.random_word)
   end
@@ -26,7 +27,7 @@ defmodule Hangman.Game do
       game_state: game.game_state,
       turns_left: game.turns_left,
       letters:    game.letters |> reveal_guessed(game.used),
-      used:       game.used |> Enum.to_list,
+      used:       game.used, #|> Enum.to_list,
       last_guess: game.last_guess,
     }
   end

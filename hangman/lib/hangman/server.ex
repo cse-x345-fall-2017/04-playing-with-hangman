@@ -2,6 +2,7 @@ defmodule Hangman.Server do
   use GenServer
   alias Hangman.Game
   alias Hangman.Stash
+  alias Hangman.SubSupervisor
   def start_link(game,name) do
     GenServer.start_link(__MODULE__,{name,game},name:
       name)
@@ -13,6 +14,17 @@ defmodule Hangman.Server do
     {:ok,{name,game}}
   end
 
+  def listener() do
+    receive do
+      {:new_game,from}->
+	send from, SubSupervisor.new_game()
+      {:make_move,game,guess,from}->
+	send from, make_move(game,guess)
+      {:tally,game,from}->
+	send from, tally(game)
+    end
+    listener()
+  end
   
   def terminate(_reason,{name,game}) do
     Stash.add_game_state(name,game)

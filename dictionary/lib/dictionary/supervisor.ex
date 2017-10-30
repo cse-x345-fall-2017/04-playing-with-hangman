@@ -13,7 +13,7 @@ defmodule Dictionary.Supervisor do
     #           -> we always want a dictionary running
     opts = [
       strategy: :one_for_one,
-      restart: :permanent,
+      restart: :temporal,
       name: name
     ]
     # Pattern match on :ok so we get an explicit error

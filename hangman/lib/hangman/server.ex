@@ -11,39 +11,25 @@ defmodule Hangman.Server do
 
   def handle_call({:new_game, word}, _from, _) do
     Game.new_game(word) |>
-    update_state |>
     reply_game
   end
 
   def handle_call({:new_game}, _from, _) do
     Game.new_game |>
-    update_state |>
     reply_game
   end
 
   def handle_call({:make_move, game, guess}, _from, _) do
     Game.make_move(game, guess) |>
-    update_state |>
     reply
   end
 
   def handle_call({:tally, game}, _from, _) do
     Game.tally(game) |>
     reply_tally(game)
-
   end
 
   ### Inner Server workings calls ###
-
-  def update_state({game, tally}) do
-    Agent.update(@store, fn _ -> game end)
-    {game, tally}
-  end
-
-  def update_state(game) do
-    Agent.update(@store, fn _ -> game end)
-    game
-  end
 
   def reply_tally(tally, game) do
     {:reply, tally, game}

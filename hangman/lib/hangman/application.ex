@@ -8,11 +8,6 @@ defmodule Hangman.Application do
           id: Hangman,
           start: {Hangman, :start_link, []},
           restart: :transient
-        },
-        %{
-          id: Hangman.DataStore,
-          start: {Hangman.DataStore, :start_link, []},
-          restart: :transient
         }
       ],
       strategy: :one_for_one, name: Hangman.Server

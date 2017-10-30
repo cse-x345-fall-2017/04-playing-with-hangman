@@ -6,7 +6,9 @@ defmodule Hangman.Application do
     import Supervisor.Spec, warn: false
 
     children = [
-      worker(Hangman.Game, [args]),
+      worker(Hangman.State, [args]),
+      #worker(Hangman.Game, [args]),
+      supervisor(Hangman.Supervisor, [])
     ]
 
     opts = [strategy: :one_for_one, name: Sequence.Supervisor]

@@ -1,12 +1,26 @@
 defmodule HumanPlayer.Impl do
+  @global_name :"Hangman_Server"
+  def connect(node_name) do
+    Node.connect node_name
+  end
 
+  def communication(msg) do
+    send :global.whereis_name(@global_name),msg
+    receive do
+      msg -> msg
+    end
+  end
+  
   def play() do
-    play(Hangman.new_game)
+    game = communication({:new_game,self()})
+    play(game)
   end
 
   def play(game) do
-    get_next_move({game, Hangman.tally(game)})
+    tally = communication({:tally,game,self()})
+    get_next_move({game, tally})
   end
+
 
   defp get_next_move({ _game, %{ letters: letters, game_state: :won }}) do
     IO.puts "\nCONGRATULATIONS! The word was #{letters |> Enum.join}"
@@ -22,7 +36,8 @@ defmodule HumanPlayer.Impl do
     draw_current_board(state)
     report_move_status(state)
     guess = get_guess(state)
-    Hangman.make_move(game, guess)
+    {:make_move,game,guess,self()}
+    |> communication
     |> get_next_move
   end
 

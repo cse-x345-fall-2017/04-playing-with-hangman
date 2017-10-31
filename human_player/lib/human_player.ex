@@ -7,6 +7,6 @@ defmodule HumanPlayer do
   and it will create a new game, show you the current state, and
   then interact with you as you make guesses.
   """
-
-  defdelegate play(), to: HumanPlayer.Impl
+  defdelegate connect(node_name), to: HumanPlayer.Impl
+  defdelegate play(),    to: HumanPlayer.Impl
 end

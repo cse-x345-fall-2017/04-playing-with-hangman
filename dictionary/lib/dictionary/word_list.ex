@@ -1,7 +1,13 @@
 defmodule Dictionary.WordList do
+  def start_link() do
+    IO.puts("starting agent")
+    result = Agent.start_link(fn -> word_list() end, name: __MODULE__)
+    IO.puts("Agent started")
+    result
+  end
 
   def random_word() do
-    word_list()
+    Agent.get(__MODULE__, fn word -> word end)
     |> Enum.random()
   end
   
@@ -10,5 +16,9 @@ defmodule Dictionary.WordList do
     |> Path.expand(__DIR__)
     |> File.read!()
     |> String.split(~r/\n/)
+  end
+
+  def demo do
+    "Function call works"
   end
 end

@@ -32,7 +32,6 @@ defmodule Hangman do
   end
 
   def establish_connections() do
-    IO.puts(node())
     receive do
       {pid, :new_game} -> send(pid, new_game()) 
     end

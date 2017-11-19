@@ -1,8 +1,6 @@
 defmodule Dictionary.WordList do
   def start_link() do
-    IO.puts("starting agent")
     result = Agent.start_link(fn -> word_list() end, name: __MODULE__)
-    IO.puts("Agent started")
     result
   end
 
@@ -16,9 +14,5 @@ defmodule Dictionary.WordList do
     |> Path.expand(__DIR__)
     |> File.read!()
     |> String.split(~r/\n/)
-  end
-
-  def demo do
-    "Function call works"
   end
 end

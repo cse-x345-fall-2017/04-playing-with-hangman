@@ -1,4 +1,23 @@
 defmodule Hangman.Game do
+  use GenServer
+
+  def start_link() do
+    GenServer.start_link(__MODULE__, name: __MODULE__)
+  end
+
+  def handle_call(:new_game, _from, _state) do
+    game = new_game()
+    {:reply, game, game}
+  end
+
+  def handle_call({:make_move, game, guess}, _from, _state) do
+    result = {updated_game, _tally} = make_move(game, guess)
+    {:reply, result, updated_game}
+  end
+
+  def handle_call({:tally, game}, _from, _state) do
+    {:reply, tally(game), game}
+  end
 
   def new_game(word) do
     %Hangman.State {

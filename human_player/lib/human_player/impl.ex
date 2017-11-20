@@ -1,29 +1,44 @@
 defmodule HumanPlayer.Impl do
 
-  def play() do
-    play(Hangman.new_game)
+  def play_with(node) do
+    send({:foo, node}, {self(), :new_game})
+    _result = receive do
+              {server, game} -> play(server, game) 
+             end
   end
 
-  def play(game) do
-    get_next_move({game, Hangman.tally(game)})
+  def make_move(server, game, guess) do
+    GenServer.call(server, {:make_move, game, guess})
   end
 
-  defp get_next_move({ _game, %{ letters: letters, game_state: :won }}) do
+  def tally(server, game) do
+    GenServer.call(server, {:tally, game})
+  end
+
+  # def play() do
+  #   play(Hangman.new_game)
+  # end
+
+  def play(server, game) do
+    get_next_move({game, tally(server, game)}, server)
+  end
+
+  defp get_next_move({ _game, %{ letters: letters, game_state: :won }}, _server) do
     IO.puts "\nCONGRATULATIONS! The word was #{letters |> Enum.join}"
   end
 
-  defp get_next_move({_game, %{ letters: letters, game_state: :lost }}) do
+  defp get_next_move({_game, %{ letters: letters, game_state: :lost }}, _server) do
     clear_screen()
     IO.puts drawing(0)
     IO.puts "\nSorry, you lose. The word was: #{letters |> Enum.join}"
   end
 
-  defp get_next_move({game, state}) do
+  defp get_next_move({game, state}, server) do
     draw_current_board(state)
     report_move_status(state)
     guess = get_guess(state)
-    Hangman.make_move(game, guess)
-    |> get_next_move
+    make_move(server, game, guess)
+    |> get_next_move(server)
   end
 
   defp report_move_status(%{ game_state: :initializing }) do

@@ -1,7 +1,11 @@
 defmodule Dictionary.WordList do
+  def start_link() do
+    result = Agent.start_link(fn -> word_list() end, name: __MODULE__)
+    result
+  end
 
   def random_word() do
-    word_list()
+    Agent.get(__MODULE__, fn word -> word end)
     |> Enum.random()
   end
   

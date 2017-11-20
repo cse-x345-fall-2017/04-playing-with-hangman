@@ -8,3 +8,5 @@ Steps to run my code:
 1. Run Hangman on a named node.
 2. Copy the node name
 3. Start HumanPlayer in iex and run HumanPlayer.play_with(:node_name) to start a new game
+
+I use the default restart strategy, which is :permanent. This is because in the case of our game, we would want the server to restart regardless of the reason for shutdown. If we wanted to quit, we could just terminate the player process instead, which is more intuitive.
